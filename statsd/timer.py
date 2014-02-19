@@ -1,4 +1,3 @@
-import contextlib
 import time
 import statsd
 
@@ -104,30 +103,3 @@ class Timer(statsd.Client):
             return self._decorate(function_or_name.__name__, function_or_name)
         else:
             return lambda f: self._decorate(function_or_name, f)
-
-    @contextlib.contextmanager
-    def time(self, subname=None, class_=None):
-        '''Returns a context manager to time execution of a block of code.
-
-        :keyword subname: The subname to report data to
-        :keyword class_: The class to use as a client
-
-        >>> from statsd import Timer
-        >>> timer = Timer('application_name')
-        >>>
-        >>> with timer.time():
-        ...     # resulting timer name: application_name
-        ...     pass
-        >>>
-        >>>
-        >>> with timer.time('context_timer'):
-        ...     # resulting timer name: application_name.context_timer
-        ...     pass
-
-        '''
-        if class_ is None:
-            class_ = Timer
-        timer = self.get_client(subname, class_)
-        timer.start()
-        yield
-        timer.stop('')

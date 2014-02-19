@@ -1,7 +1,7 @@
 import logging
 import statsd
 
-from . import compat
+from statsd import compat
 
 
 class Client(object):

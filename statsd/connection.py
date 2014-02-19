@@ -1,8 +1,9 @@
 import logging
 import socket
 import random
+import sys
 
-from . import compat
+from statsd import compat
 
 
 class Connection(object):
@@ -67,7 +68,8 @@ class Connection(object):
                 send_data = ('%s:%s' % (stat, value)).encode("utf-8")
                 self.udp_sock.send(send_data)
             return True
-        except Exception as e:
+        except Exception:
+            t, e = sys.exc_info()[:2]
             self.logger.exception('unexpected error %r while sending data', e)
             return False
 

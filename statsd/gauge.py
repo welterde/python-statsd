@@ -1,6 +1,6 @@
 import statsd
 
-from . import compat
+from statsd import compat
 
 
 class Gauge(statsd.Client):
